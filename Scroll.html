@@ -59,14 +59,23 @@
 
             let scrollBarHeight = 260; // Fixed height for the scrollbar
             let handleHeight = Math.max((displayedItems / totalItems) * scrollBarHeight, 20); // Minimum handle size
-            let handlePosition = (selectedIndex / totalItems) * (scrollBarHeight - handleHeight);
+            let handlePosition = ((selectedIndex - 1) / (totalItems - 1)) * (scrollBarHeight - handleHeight);
             
             scrollHandle.style.height = handleHeight + 'px';
             scrollHandle.style.transform = `translateY(${handlePosition}px)`;
         }
 
-        // Example usage:
-        updateScrollIndicator(10, 50, 5); // Adjusted dynamically from Lua
+        // Listen for messages from the Lua script
+        window.addEventListener("message", function (event) {
+            const message = JSON.parse(event.data);
+            if (message.type === "updateScrollIndicator") {
+                updateScrollIndicator(
+                    message.data.displayedItems,
+                    message.data.totalItems,
+                    message.data.selectedIndex
+                );
+            }
+        });
     </script>
 </body>
 </html>
