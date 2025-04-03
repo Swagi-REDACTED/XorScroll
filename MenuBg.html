@@ -6,7 +6,7 @@
   <style>
     :root {
       --bg-color: rgba(0, 0, 0, 0.3);
-      --BG-height: 1210px;
+      --BG-height: 1210px;  /* Default height */
     }
     html, body {
       margin: 0;
@@ -34,7 +34,7 @@
         // Update the background color
         document.documentElement.style.setProperty('--bg-color', message.data.color);
         // Update the container height dynamically (in px)
-        document.documentElement.style.setProperty('--scroll-height', message.data.height + "px");
+        document.documentElement.style.setProperty('--BG-height', message.data.height + "px");
       }
     });
   </script>
