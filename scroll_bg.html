@@ -4,37 +4,31 @@
   <meta charset="UTF-8">
   <title>Scroll Background</title>
   <style>
-    :root {
-      --bg-color: rgba(0, 0, 0, 0.525);
-      --scroll-height: 1210px;
-    }
     html, body {
-      margin: 0;
+      margin: 1;
       padding: 0;
       width: 200px;
-      height: var(--scroll-height);
+      height: 1210px;
       background: transparent !important;
       overflow: hidden;
     }
     .rounded-bg {
       width: 100%;
       height: 100%;
-      background: var(--bg-color);
-      /* Keep a fixed border-radius so corners remain rounded */
-      border-radius: 90px;
+      /* Use CSS variable for background color with a default fallback */
+      background: var(--bg-color, rgba(0, 0, 0, 0.3));
+      border-radius: 60px;
     }
   </style>
 </head>
 <body>
   <div class="rounded-bg"></div>
   <script>
+    // Listen for color update messages from Lua
     window.addEventListener("message", function(event) {
       const message = JSON.parse(event.data);
-      if (message.type === "updateScrollBg" && message.data) {
-        // Update the background color
-        document.documentElement.style.setProperty('--bg-color', message.data.color);
-        // Update the container height dynamically (in px)
-        document.documentElement.style.setProperty('--scroll-height', message.data.height + "px");
+      if (message.type === "updateScrollBg") {
+        document.documentElement.style.setProperty('--bg-color', message.color);
       }
     });
   </script>
