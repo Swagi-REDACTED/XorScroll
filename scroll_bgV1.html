@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Scroll Background</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 200px;
+      height: 1210px;
+      background: transparent !important;
+      overflow: hidden;
+    }
+    .rounded-bg {
+      width: 100%;
+      height: 100%;
+      /* Use CSS variable for background color with a default fallback */
+      background: var(--bg-color, rgba(0, 0, 0, 0.5));
+      border-radius: 60px;
+    }
+  </style>
+</head>
+<body>
+  <div class="rounded-bg"></div>
+  <script>
+    // Listen for color update messages from Lua
+    window.addEventListener("message", function(event) {
+      const message = JSON.parse(event.data);
+      if (message.type === "updateScrollBg") {
+        document.documentElement.style.setProperty('--bg-color', message.color);
+      }
+    });
+  </script>
+</body>
+</html>
