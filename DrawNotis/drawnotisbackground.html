@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Black Rectangle</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: transparent;
+        }
+
+        .bottom-rounded {
+            width: 1000px;
+            height: 40px;
+            background-color: var(--rect-color, rgba(0, 0, 0, 1)); /* Default: Black */
+            border-radius: 0 0 20px 20px; /* Rounded bottom corners only */
+        }
+    </style>
+</head>
+<body>
+    <div class="bottom-rounded"></div>
+
+    <script>
+        window.addEventListener('message', function(event) {
+            if (event.data.color) {
+                document.documentElement.style.setProperty('--rect-color', event.data.color);
+            }
+        });
+    </script>
+</body>
+</html>
