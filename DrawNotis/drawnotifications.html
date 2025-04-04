@@ -1,29 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Purple Rectangle</title>
-    <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background: transparent !important;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Purple Rectangle</title>
+  <style>
+    /* Global reset and transparency enforcement */
+    html, body {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      background: transparent !important;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+    }
 
-        .top-rounded {
-            width: 1000px;
-            height: 50px;
-            background-color: rgba(128, 0, 128, 1); /* Purple */
-            border-radius: 20px 20px 0 0; /* Rounded top corners only */
-        }
-    </style>
+    /* Box-sizing reset for consistency */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    /* Centering container */
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Purple rectangle with top-rounded corners */
+    .top-rounded {
+      width: 1000px;
+      height: 50px;
+      background-color: rgba(128, 0, 128, 1); /* Purple */
+      border-radius: 20px 20px 0 0; /* Rounded top corners only */
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+    }
+  </style>
 </head>
 <body>
-    <div class="top-rounded"></div>
+  <div class="top-rounded"></div>
+
+  <script>
+    // Listen for messages to dynamically update the rectangle color
+    window.addEventListener('message', function(event) {
+      if (event.data.color) {
+        document.documentElement.style.setProperty('--rect-color', event.data.color);
+      }
+    });
+  </script>
 </body>
 </html>
