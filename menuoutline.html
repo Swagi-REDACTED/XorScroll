@@ -15,11 +15,26 @@
     .outline-box {
       width: 100%;
       height: 100%;
-      border: 4px solid rgba(255, 255, 255, 1); /* Color is dynamically updated */
       border-radius: 0px 0px 25px 25px; /* Match background */
       box-sizing: border-box;
       background-clip: padding-box; /* Prevents black line artifacts */
       overflow: hidden; /* Ensures no visual glitches */
+      position: relative;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+    }
+    .outline-box::before {
+      content: "";
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      right: 4px;
+      bottom: 4px;
+      border: 4px solid rgba(255, 25, 255, 1); /* Color is dynamically updated */
+      border-radius: 0px 0px 25px 25px; /* 25px minus border width */
+      pointer-events: none;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
     }
   </style>
 </head>
@@ -29,14 +44,16 @@
     window.addEventListener("message", function(event) {
       const message = JSON.parse(event.data);
       if (message.type === "updateMenuOutline" && message.data) {
-        const menuOutline = document.getElementById("menuOutline");
-        if (message.data.color) {
-          menuOutline.style.borderColor = message.data.color;
-        }
-        if (message.data.height) {
-          document.documentElement.style.height = message.data.height + "px";
-          document.body.style.height = message.data.height + "px";
-          menuOutline.style.height = message.data.height + "px";
+        const menuOutline = document.getElementById("menuOutline").querySelector("::before");
+        if (menuOutline) {
+          if (message.data.color) {
+            menuOutline.style.borderColor = message.data.color;
+          }
+          if (message.data.height) {
+            document.documentElement.style.height = message.data.height + "px";
+            document.body.style.height = message.data.height + "px";
+            menuOutline.style.height = `calc(${message.data.height}px - 8px)`;
+          }
         }
       }
     });
