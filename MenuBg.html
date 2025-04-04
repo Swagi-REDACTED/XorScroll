@@ -2,39 +2,38 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Scroll Background</title>
+  <title>Menu Background</title>
   <style>
-    :root {
-      --bg-color: rgba(0, 0, 0, 1);
-      --BG-height: 310px;  /* Default height */
-    }
     html, body {
       margin: 0;
       padding: 0;
       width: 563px;
-      height: var(--BG-height);
+      height: 310px; /* Default height */
       background: transparent !important;
       overflow: hidden;
     }
     .rounded-bg {
       width: 100%;
       height: 100%;
-      background: var(--bg-color);
-      /* Keep a fixed border-radius so corners remain rounded */
-      border-radius: 25px;
+      background: rgba(0, 0, 0, 1); /* Default background color */
+      border-radius: 2px 2px 25px 25px;
     }
   </style>
 </head>
 <body>
-  <div class="rounded-bg"></div>
+  <div class="rounded-bg" id="menuBg"></div>
   <script>
     window.addEventListener("message", function(event) {
       const message = JSON.parse(event.data);
-      if (message.type === "updateScrollBg" && message.data) {
-        // Update the background color
-        document.documentElement.style.setProperty('--bg-color', message.data.color);
-        // Update the container height dynamically (in px)
-        document.documentElement.style.setProperty('--BG-height', message.data.height + "px");
+      if (message.type === "updateMenuBg" && message.data) {
+        const menuBg = document.getElementById("menuBg");
+        if (message.data.color) {
+          menuBg.style.background = message.data.color;
+        }
+        if (message.data.height) {
+          document.body.style.height = message.data.height + "px";
+          menuBg.style.height = message.data.height + "px";
+        }
       }
     });
   </script>
