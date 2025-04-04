@@ -19,6 +19,8 @@
       border-radius: 0px 5px 5px 80px;
       transition: opacity 0.2s ease-in-out;
       opacity: 1;
+      background-clip: padding-box; /* Fixes black lines around corners */
+      overflow: hidden; /* Ensures no visual artifacts */
     }
   </style>
 </head>
