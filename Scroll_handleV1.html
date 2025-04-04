@@ -26,22 +26,21 @@
   <div class="rounded-handle" id="scrollHandle"></div>
   <script>
     const scrollHandle = document.getElementById("scrollHandle");
-    
+  
     function fadeHandle() {
       scrollHandle.style.opacity = "0";
       setTimeout(() => {
         scrollHandle.style.opacity = "1";
       }, 150);
     }
-
-    window.addEventListener("message", function(event) {
-      const message = JSON.parse(event.data);
-      if (message.type === "updateScrollHandle") {
-        document.documentElement.style.setProperty('--handle-color', message.color);
-      } else if (message.type === "scrollUp" || message.type === "scrollDown") {
+  
+    // Polling for updates using invokeNative
+    setInterval(() => {
+      const scrollState = window.invokeNative ? window.invokeNative("getScrollState") : null;
+      if (scrollState === "up" || scrollState === "down") {
         fadeHandle();
       }
-    });
-  </script>
+    }, 100);
+  </script>  
 </body>
 </html>
