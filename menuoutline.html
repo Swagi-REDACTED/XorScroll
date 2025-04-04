@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Scroll Outline</title>
+  <style>
+    :root {
+      --outline-color: rgba(255, 0, 255, 1); /* Default outline color */
+      --BG-height: 310px; /* Match background height */
+    }
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 563px;
+      height: var(--BG-height);
+      background: transparent !important;
+      overflow: hidden;
+    }
+    .outline-box {
+      width: 100%;
+      height: 100%;
+      border: 3px solid var(--outline-color); /* Outline thickness and color */
+      border-radius: 0 0 25px 25px; /* Match rounded corners */
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+<body>
+  <div class="outline-box"></div>
+  <script>
+    window.addEventListener("message", function(event) {
+      const message = JSON.parse(event.data);
+      if (message.type === "updateScrollOutline" && message.data) {
+        // Update the outline color
+        document.documentElement.style.setProperty('--outline-color', message.data.color);
+        // Update the outline height dynamically (in px)
+        document.documentElement.style.setProperty('--BG-height', message.data.height + "px");
+      }
+    });
+  </script>
+</body>
+</html>
