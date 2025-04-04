@@ -15,9 +15,11 @@
     .outline-box {
       width: 100%;
       height: 100%;
-      border: 2px solid rgba(255, 255, 255, 1); /* Default outline color */
+      border: 2px solid rgba(255, 255, 255, 1); /* Color is dynamically updated */
       border-radius: 0px 0px 25px 25px; /* Match background */
       box-sizing: border-box;
+      background-clip: padding-box; /* Prevents black line artifacts */
+      overflow: hidden; /* Ensures no visual glitches */
     }
   </style>
 </head>
@@ -32,6 +34,7 @@
           menuOutline.style.borderColor = message.data.color;
         }
         if (message.data.height) {
+          document.documentElement.style.height = message.data.height + "px";
           document.body.style.height = message.data.height + "px";
           menuOutline.style.height = message.data.height + "px";
         }
