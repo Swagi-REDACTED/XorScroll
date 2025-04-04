@@ -7,67 +7,57 @@
     html, body {
       margin: 0;
       padding: 0;
-      width: 563px;
-      height: 474px; /* Default height */
+      width: 1280px;
+      height: 1280px;
       background: transparent !important;
       overflow: hidden;
     }
     .outline-box {
       width: 100%;
       height: 100%;
-      border-radius: 0px 0px 25px 25px; /* Match background */
       box-sizing: border-box;
-      background-clip: padding-box; /* Prevents black line artifacts */
-      overflow: hidden; /* Ensures no visual glitches */
       position: relative;
+      overflow: hidden;
+      border-radius: 0 0 25px 25px;
       -webkit-backface-visibility: hidden;
       backface-visibility: hidden;
     }
-    .outline-box::before {
-      content: "";
+    /* Left + Right Borders */
+    .side-borders {
       position: absolute;
-      top: 0px;
-      left: 0px;
-      right: 0px;
-      bottom: 0px;
-      border-top: 0;
-      border-left: 12px solid rgba(255, 255, 255, 1); /* Default outline color */
-      border-right: 12px solid rgba(255, 255, 255, 1);
-      border-bottom: 48px solid rgba(255, 255, 255, 1);
-      border-radius: 0px 0px 25px 25px;
-      pointer-events: none;
-      -webkit-backface-visibility: hidden;
-      backface-visibility: hidden;
+      top: 0;
+      bottom: 0;
+      width: 15px;
+      background-color: rgba(255, 255, 255, 1);
+      z-index: 1;
+    }
+    .left-border {
+      left: 0;
+      border-radius: 0 0 0 25px;
+    }
+    .right-border {
+      right: 0;
+      border-radius: 0 0 25px 0;
+    }
+
+    /* Bottom Border - Fixed 48px from the bottom */
+    .bottom-border {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 15px;
+      bottom: 0;
+      background-color: rgba(255, 255, 255, 1);
+      border-radius: 0 0 25px 25px;
+      z-index: 0;
     }
   </style>
 </head>
 <body>
-  <div class="outline-box" id="menuOutline"></div>
-  <script>
-    window.addEventListener("message", function(event) {
-      const message = JSON.parse(event.data);
-      if (message.type === "updateMenuOutline" && message.data) {
-        // Update height
-        document.documentElement.style.height = message.data.height + "px";
-        document.body.style.height = message.data.height + "px";
-        // Since pseudo-elements can't be directly accessed via querySelector,
-        // we update their color by injecting a style tag.
-        const outlineColor = message.data.color;
-        let styleTag = document.getElementById("outlineColorStyle");
-        if (!styleTag) {
-          styleTag = document.createElement("style");
-          styleTag.id = "outlineColorStyle";
-          document.head.appendChild(styleTag);
-        }
-        styleTag.innerHTML = `
-          .outline-box::before {
-            border-left-color: ${outlineColor};
-            border-right-color: ${outlineColor};
-            border-bottom-color: ${outlineColor};
-          }
-        `;
-      }
-    });
-  </script>
+  <div class="outline-box">
+    <div class="side-borders left-border"></div>
+    <div class="side-borders right-border"></div>
+    <div class="bottom-border"></div>
+  </div>
 </body>
 </html>
