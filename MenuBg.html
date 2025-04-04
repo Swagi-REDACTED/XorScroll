@@ -15,8 +15,10 @@
     .rounded-bg {
       width: 100%;
       height: 100%;
-      background: rgba(255, 255, 255, 1); /* Default background color */
+      background: rgba(255, 255, 255, 1); /* Color is dynamically updated */
       border-radius: 0px 0px 25px 25px;
+      background-clip: padding-box; /* Prevents black line artifacts */
+      overflow: hidden; /* Ensures no visual glitches */
     }
   </style>
 </head>
@@ -31,6 +33,7 @@
           menuBg.style.background = message.data.color;
         }
         if (message.data.height) {
+          document.documentElement.style.height = message.data.height + "px";
           document.body.style.height = message.data.height + "px";
           menuBg.style.height = message.data.height + "px";
         }
