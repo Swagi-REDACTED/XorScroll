@@ -36,6 +36,8 @@
       border-radius: 20px 20px 0 0; /* Rounded top corners only */
       -webkit-backface-visibility: hidden;
       backface-visibility: hidden;
+      background-clip: padding-box; /* Fixes black lines around corners */
+      overflow: hidden; /* Ensures no visual artifacts */
     }
   </style>
 </head>
