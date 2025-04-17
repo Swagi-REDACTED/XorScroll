@@ -8,19 +8,23 @@
       margin: 0;
       padding: 0;
       width: 563px;
-      height: 450px; /* Default height */
-      background: transparent !important;
+      height: 450px;
+      background: transparent;
       overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      transform: translateZ(0); /* Forces GPU compositing to prevent black lines */
     }
     .rounded-bg {
       width: 100%;
       height: 100%;
-      background: rgba(255, 255, 255, 1); /* Color is dynamically updated */
-      border-radius: 0px 0px 25px 25px;
-      background-clip: padding-box; /* Fixes black lines around corners */
-      overflow: hidden; /* Ensures no visual artifacts */
-      -webkit-backface-visibility: hidden;
+      background: rgba(255, 255, 255, 1);
+      border-radius: 0 0 25px 25px;
+      overflow: hidden;
+      will-change: transform, opacity; /* Hints browser to optimize for animations/changes */
+      transform: translateZ(0); /* Extra GPU layer to kill black line artifacts */
       backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
     }
   </style>
 </head>
@@ -29,15 +33,17 @@
   <script>
     window.addEventListener("message", function(event) {
       const message = JSON.parse(event.data);
+      const menuBg = document.getElementById("menuBg");
+
       if (message.type === "updateMenuBg" && message.data) {
-        const menuBg = document.getElementById("menuBg");
         if (message.data.color) {
           menuBg.style.background = message.data.color;
         }
         if (message.data.height) {
-          document.documentElement.style.height = message.data.height + "px";
-          document.body.style.height = message.data.height + "px";
-          menuBg.style.height = message.data.height + "px";
+          const newHeight = message.data.height + "px";
+          document.documentElement.style.height = newHeight;
+          document.body.style.height = newHeight;
+          menuBg.style.height = newHeight;
         }
       }
     });
